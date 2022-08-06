@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"hackattic_solutions/infra/environment"
+	"hackattic_solutions/modules/hackattic"
 	"log"
 	"net/http"
 
@@ -24,7 +25,7 @@ func InitializeApiRestServer() {
 func initializeApiRoutes(router *mux.Router) {
 
 	initHealthRoutes(router.PathPrefix("/health").Subrouter())
-
+	hackattic.InitUserRoutes(router.PathPrefix("/").Subrouter())
 }
 
 func initHealthRoutes(router *mux.Router) {
