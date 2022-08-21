@@ -20,7 +20,7 @@ type qrPost struct {
 	Code string `json:"code"`
 }
 
-func main1() {
+func ScanQR() {
 
 	resp, err := http.Get("https://hackattic.com/challenges/reading_qr/problem?access_token=8e80fec0cbe25049")
 

@@ -1,4 +1,4 @@
-package main
+package unpackbytes
 
 import (
 	"bytes"
@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-func unpack() {
+func Unpack() {
 
 	resp, err := http.Get("https://hackattic.com/challenges/help_me_unpack/problem?access_token=8e80fec0cbe25049")
 	if err != nil {
