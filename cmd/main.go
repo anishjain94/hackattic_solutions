@@ -1,13 +1,16 @@
 package main
 
 import (
-	"hackattic_solutions/pkg/backup_restore"
-	unpackbytes "hackattic_solutions/pkg/unpack_bytes"
+	// "hackattic_solutions/pkg/backup_restore"
+	// unpackbytes "hackattic_solutions/pkg/unpack_bytes"
+	bruteforcezip "hackattic_solutions/pkg/brute_force_zip"
 )
 
 func main() {
 
-	backup_restore.BackupRestore()
+	// backup_restore.BackupRestore()
 
-	unpackbytes.Unpack()
+	// unpackbytes.Unpack()
+
+	bruteforcezip.BruteForceZip()
 }

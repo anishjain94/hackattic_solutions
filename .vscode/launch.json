@@ -9,8 +9,7 @@
       "type": "go",
       "request": "launch",
       "mode": "debug",
-      // "program": "${workspaceFolder}/cmd/api/main.go",
-      "program": "${workspaceFolder}",
+      "program": "${workspaceFolder}/cmd/main.go",
       "showLog": true,
       "console": "integratedTerminal"
     }
