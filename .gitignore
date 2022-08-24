@@ -1,0 +1,5 @@
+.DS_Store
+cmd/.DS_Store
+pkg/brute_force_zip/.DS_Store
+cmd/__debug_bin
+pkg/.DS_Store
