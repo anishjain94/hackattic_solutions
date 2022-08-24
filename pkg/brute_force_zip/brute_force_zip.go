@@ -1,45 +1,17 @@
 package bruteforcezip
 
 import (
-	// "archive/zip"
+	"bytes"
 	"hackattic_solutions/pkg/common"
 	"io"
 	"log"
-
-	"github.com/alexmullins/zip"
+	"os"
+	"os/exec"
 )
 
 // type zipDto struct {
 // 	ZipUrl string `json:"zip_url"`
 // }
-
-func listFile(file *zip.File) error {
-
-	// brute force password
-
-	var fileRead io.ReadCloser
-	var err error
-
-	for i := 1000; i <= 999999; i++ {
-		file.FileHeader.SetPassword(string(rune(i)))
-		fileRead, err = file.Open()
-		if err != nil {
-			continue
-		} else {
-			print("password is ", i)
-			break
-		}
-	}
-
-	// defer fileRead.Close()
-
-	str, err := io.ReadAll(fileRead)
-	common.HandleError(err)
-
-	print(string(str))
-
-	return nil
-}
 
 func BruteForceZip() {
 
@@ -58,40 +30,52 @@ func BruteForceZip() {
 	// _, err = io.Copy(zipFile, respZip.Body)
 	// common.HandleError(err)
 
-	read, err := zip.OpenReader("../pkg/brute_force_zip/hackattic.zip")
+	// read, err := zip.OpenReader("../pkg/brute_force_zip/hackattic.zip")
+	// common.HandleError(err)
+
+	// Used john the reaper for breaking password
+
+	// lucky featherbold boatshy bonusbillowing smoke
+	runCommand("/opt/homebrew/Cellar/john-jumbo/1.9.0/share/john/zip2john hackattic.zip > secure.hashes", "", "")
+
+	_, err := exec.Command("/opt/homebrew/Cellar/john-jumbo/1.9.0/share/john/zip2john hackattic.zip > secure.hashes").CombinedOutput()
 	common.HandleError(err)
 
-	for _, file := range read.File {
-		print(file.Name)
-		print(file.FileHeader.IsEncrypted())
+	passwordBytes, err := exec.Command("sh", "-c", "john secure.hashes").CombinedOutput()
+	common.HandleError(err)
 
-		if file.Name == "secret.txt" {
-			if err := listFile(file); err != nil {
-				log.Fatal("unable to open file")
-			}
-		}
-	}
+	print(string(passwordBytes))
 
+	// for _, file := range read.File {
+	// 	if file.Name == "secret.txt" {
+	// 		password := ""
+	// 		file.SetPassword(password)
+	// 		_, err := file.Open()
+	// 		if err != nil {
+	// 			print(err.Error())
+	// 			continue
+	// 		} else {
+	// 			break
+	// 		}
+	// 	}
+	// }
 }
 
+func runCommand(cmd string, args string, dir string) {
+	command := exec.Command(cmd, args)
+	command.Dir = dir
 
-// m = list('abcdefghijklmnopqrstuvwxyz0123456789')
-// def to_base_lm(n):
-//     result = ''
-//     base = len(m)
-//     while n > 0:
-//         index = n % base
-//         result = m[index] + result
-//         n = n // base
-//     return result
-// def from_base_lm(s):
-//     s = s[::-1]
-//     result = 0
-//     n = len(s)
-//     base = len(m)
-//     for i in range(n):
-//         number = m.index(s[i])
-//         result += number * (base ** i)
-//     return result
-// for i in range(from_base_lm('aaaa'), from_base_lm('99999')+1):
-//     print(to_base_lm(i).rjust(4,'a'))
+	var stdBuffer bytes.Buffer
+	mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+	command.Stdout = mw
+	command.Stderr = mw
+
+	// Execute the command
+	if err := command.Run(); err != nil {
+		log.Panic(err)
+	}
+
+	log.Println(stdBuffer.String())
+
+}
