@@ -2,6 +2,8 @@ package common
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -23,5 +25,13 @@ func GetResponse[dto any](url string) *dto {
 	err = json.NewDecoder(resp.Body).Decode(&respDto)
 	HandleError(err)
 
+	if b, err := io.ReadAll(resp.Body); err == nil {
+		print(string(b))
+	}
+
 	return &respDto
+}
+
+func PrintDto[dto any](dtoObj dto) {
+	fmt.Printf("%#v", dtoObj)
 }
