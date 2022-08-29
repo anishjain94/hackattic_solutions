@@ -1,45 +1,97 @@
 package jottingjwts
 
 import (
-	"fmt"
+	"bytes"
+	"encoding/json"
 	"hackattic_solutions/pkg/common"
+	"io"
+	"net/http"
+	"strings"
 
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/gorilla/mux"
 )
-
-type jwtSecretDto struct {
-	Secret string `json:"jwt_secret"`
-}
-
-type SolutionDto struct {
-	Solution string `json:"app_url"`
-}
-
-type FinalSolution struct {
-	Solution string `json:"solution"`
-}
-
-var globalString = ""
 
 func VerifyJwts() {
 
-	// problemUrl := "https://hackattic.com/challenges/jotting_jwts/problem?access_token=8e80fec0cbe25049"
+	problemUrl := "https://hackattic.com/challenges/jotting_jwts/problem?access_token=8e80fec0cbe25049"
 
-	// secretDto := common.GetResponse[jwtSecretDto](problemUrl)
+	secretDto := common.GetResponse[jwtSecretDto](problemUrl)
 
-	secretDto := jwtSecretDto{
-		Secret: "1KMe&tcv&3!L57QR",
-	}
-	common.PrintDto(secretDto)
+	go sendEndPoint()
 
-	tokenString := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJuYmYiOjE0NDQ0Nzg0MDB9.u1riaD1rW97opCoAuRCTy4w58Br-Zk-bh7vLiRIsrpU"
+	webServer(secretDto.Secret)
+}
 
-	jwtToken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return []byte("my_secret_key"), nil
+func verifyToken(jwtString string, secret string) (*string, bool) {
+	jwtToken, err := jwt.Parse(jwtString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
 	})
-	common.HandleError(err)
-	common.PrintDto(jwtToken.Claims.(jwt.MapClaims)["append"])
-	claims := jwtToken.Claims.(jwt.MapClaims)
+	if err != nil {
+		common.HandleError(err)
+		return nil, false
+	}
+	common.PrintDto(jwtToken.Claims)
 
-	globalString = globalString + fmt.Sprint(claims["append"])
+	var result string
+	if err != nil && jwtToken.Valid {
+		if claims, ok := jwtToken.Claims.(jwt.MapClaims); ok && claims["append"] != nil {
+			result = claims["append"].(string)
+			return &result, true
+		} else {
+			temp := "Time to finish"
+			return &temp, false
+		}
+	}
+	return &result, false
+}
+
+func webServer(secrets string) {
+
+	var answer strings.Builder
+
+	requestHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		reqToken, err := io.ReadAll(r.Body)
+		common.HandleError(err)
+		print(string(reqToken) + "\n")
+		stringToAppend, isValid := verifyToken(string(reqToken), secrets)
+
+		if isValid {
+			answer.WriteString(*stringToAppend)
+		} else if stringToAppend != nil && *stringToAppend == "Time to finish" {
+			solution := answer.String()
+			finalSolution := FinalSolution{
+				Solution: solution,
+			}
+
+			finalSolutionJson, err := json.Marshal(&finalSolution)
+			common.HandleError(err)
+
+			print(string(finalSolutionJson))
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(finalSolutionJson)
+
+		}
+	})
+
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/app", requestHandler).Methods(http.MethodPost)
+	http.ListenAndServe(":3000", router)
+}
+
+func sendEndPoint() {
+	solution := AppUrlDto{
+		AppUrl: "https://3c58-2405-201-d033-a844-7966-5681-2648-75c9.ngrok.io/app",
+	}
+
+	marshalled, _ := json.Marshal(solution)
+	bytesReader := bytes.NewReader(marshalled)
+	print(string(marshalled) + "\n")
+
+	resp, err := http.Post("https://hackattic.com/challenges/jotting_jwts/solve?access_token=8e80fec0cbe25049", "application/json", bytesReader)
+	common.HandleError(err)
+
+	defer resp.Body.Close()
+	common.PrintReadClosure(resp.Body)
 }
