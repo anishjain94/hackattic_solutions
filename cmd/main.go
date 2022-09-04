@@ -1,11 +1,13 @@
 package main
 
 import (
-	// "hackattic_solutions/pkg/backup_restore"
-	// unpackbytes "hackattic_solutions/pkg/unpack_bytes"
-	// bruteforcezip "hackattic_solutions/pkg/brute_force_zip"
+	// "hackattic_solutions/modules/backup_restore"
+	// unpackbytes "hackattic_solutions/modules/unpack_bytes"
+	// bruteforcezip "hackattic_solutions/modules/brute_force_zip"
 
-	jottingjwts "hackattic_solutions/pkg/jotting_jwts"
+	// jottingjwts "hackattic_solutions/modules/jotting_jwts"
+
+	websocketchitchat "hackattic_solutions/modules/websocket_chit_chat"
 )
 
 func main() {
@@ -16,5 +18,7 @@ func main() {
 
 	// bruteforcezip.BruteForceZip()
 
-	jottingjwts.VerifyJwts()
+	// jottingjwts.VerifyJwts()
+
+	websocketchitchat.Chat()
 }
