@@ -64,7 +64,7 @@ with ZipFile(file_name, "r") as zip:
     zip.extractall(path="", pwd=password.encode("utf-8"))
 
 # read secret.txt
-with open("./pkg/brute_force_zip/secret.txt", "r") as f:
+with open("./modules/brute_force_zip/secret.txt", "r") as f:
     secretTxt = f.read()
 
 print(secretTxt)

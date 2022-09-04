@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 
-	"hackattic_solutions/pkg/common"
+	"hackattic_solutions/modules/common"
 )
 
 // PGPASSWORD=password psql -h localhost -U pice_backend

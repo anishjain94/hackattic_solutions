@@ -3,7 +3,7 @@ package jottingjwts
 import (
 	"bytes"
 	"encoding/json"
-	"hackattic_solutions/pkg/common"
+	"hackattic_solutions/modules/common"
 	"io"
 	"net/http"
 	"strings"
