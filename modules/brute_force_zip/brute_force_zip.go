@@ -44,7 +44,7 @@ func BruteForceZip() {
 	passwordBytes, err := exec.Command("sh", "-c", "john secure.hashes").CombinedOutput()
 	common.HandleError(err)
 
-	print(string(passwordBytes))
+	println(string(passwordBytes))
 
 	// for _, file := range read.File {
 	// 	if file.Name == "secret.txt" {
@@ -52,7 +52,7 @@ func BruteForceZip() {
 	// 		file.SetPassword(password)
 	// 		_, err := file.Open()
 	// 		if err != nil {
-	// 			print(err.Error())
+	// 			println(err.Error())
 	// 			continue
 	// 		} else {
 	// 			break

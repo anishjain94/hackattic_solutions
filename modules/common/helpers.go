@@ -9,7 +9,7 @@ import (
 
 func HandleError(err error) {
 	if err != nil {
-		print(err.Error())
+		println(err.Error())
 	}
 }
 
@@ -35,5 +35,5 @@ func PrintDto[dto any](dtoObj dto) {
 
 func PrintReadClosure(resp io.ReadCloser) {
 	responseStr, _ := io.ReadAll(resp)
-	print(string(responseStr) + "\n")
+	println(string(responseStr) + "\n")
 }

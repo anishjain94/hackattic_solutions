@@ -54,7 +54,7 @@ func webServer(secrets string) {
 
 		reqToken, err := io.ReadAll(r.Body)
 		common.HandleError(err)
-		print(string(reqToken) + "\n")
+		println(string(reqToken) + "\n")
 		stringToAppend, isValid := verifyToken(string(reqToken), secrets)
 
 		if isValid {
@@ -68,7 +68,7 @@ func webServer(secrets string) {
 			finalSolutionJson, err := json.Marshal(&finalSolution)
 			common.HandleError(err)
 
-			print(string(finalSolutionJson))
+			println(string(finalSolutionJson))
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(finalSolutionJson)
 
@@ -87,7 +87,7 @@ func sendEndPoint() {
 
 	marshalled, _ := json.Marshal(solution)
 	bytesReader := bytes.NewReader(marshalled)
-	print(string(marshalled) + "\n")
+	println(string(marshalled) + "\n")
 
 	resp, err := http.Post("https://hackattic.com/challenges/jotting_jwts/solve?access_token=8e80fec0cbe25049", "application/json", bytesReader)
 	common.HandleError(err)

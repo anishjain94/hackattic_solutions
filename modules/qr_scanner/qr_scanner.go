@@ -57,9 +57,9 @@ func ScanQR() {
 		if err != nil {
 			// Handle error
 		}
-		print(resp.Body)
+		println(resp.Body)
 		temp, _ := json.Marshal(resp.Body)
-		print(string(temp))
+		println(string(temp))
 
 	}
 }
