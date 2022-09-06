@@ -32,25 +32,25 @@ func Unpack() {
 	}
 
 	integer := int32(binary.LittleEndian.Uint32(bytesToExtract[0:4]))
-	print(integer)
+	println(integer)
 
 	unsignedInteger := uint32(binary.LittleEndian.Uint32(bytesToExtract[4:8]))
-	print(unsignedInteger)
+	println(unsignedInteger)
 
 	signedShort := int16(binary.LittleEndian.Uint16(bytesToExtract[8:12]))
-	print(signedShort)
+	println(signedShort)
 
 	signedFloatTemp := binary.LittleEndian.Uint32(bytesToExtract[12:16])
 	signedFloat := float64(math.Float32frombits(signedFloatTemp))
-	print(signedFloat)
+	println(signedFloat)
 
 	signedDoubleTemp := binary.LittleEndian.Uint64(bytesToExtract[16:24])
 	signedDouble := math.Float64frombits(signedDoubleTemp)
-	print(signedDouble)
+	println(signedDouble)
 
 	signedDoubleBigTemp := binary.BigEndian.Uint64(bytesToExtract[24:32])
 	signedBigDouble := math.Float64frombits(signedDoubleBigTemp)
-	print(signedBigDouble)
+	println(signedBigDouble)
 
 	type Solution struct {
 		Int               int32   `json:"int"`
@@ -71,5 +71,5 @@ func Unpack() {
 
 	resp, err = http.Post("https://hackattic.com/challenges/help_me_unpack/solve?access_token=8e80fec0cbe25049&playground=1", "application/json", bytesReader)
 	readBytes, err = ioutil.ReadAll(resp.Body)
-	print(string(readBytes))
+	println(string(readBytes))
 }

@@ -22,11 +22,11 @@
 #     return result
 
 
-# print(from_base_lm('aaaa'))
-# print(from_base_lm('999999'))
+# println(from_base_lm('aaaa'))
+# println(from_base_lm('999999'))
 
 # for i in range(from_base_lm('aaaa'), from_base_lm('999999')+1):
-#     print(to_base_lm(i).rjust(4, 'a'))
+#     println(to_base_lm(i).rjust(4, 'a'))
 
 from urllib import request
 from zipfile import ZipFile
@@ -48,14 +48,14 @@ with open("hackattic.zip", 'wb') as output_file:
 os.system("/opt/homebrew/Cellar/john-jumbo/1.9.0/share/john/zip2john hackattic.zip > hackattic.hashes")
 output = subprocess.check_output(["john", "hackattic.hashes"])
 # output = subprocess.check_output(["john", "--show", "hackattic.hashes"])
-# print(output)
+# println(output)
 
 # output = output.split(":")
 
 password = output[1]
 
 # output = subprocess.check_output(["pwd"])
-# print(output)
+# println(output)
 # password = "yepn7"
 
 
@@ -64,10 +64,10 @@ with ZipFile(file_name, "r") as zip:
     zip.extractall(path="", pwd=password.encode("utf-8"))
 
 # read secret.txt
-with open("./pkg/brute_force_zip/secret.txt", "r") as f:
+with open("./modules/brute_force_zip/secret.txt", "r") as f:
     secretTxt = f.read()
 
-print(secretTxt)
+println(secretTxt)
 
 
 # send post request to /challenges/brute_force_zip/solve?access_token=8e80fec0cbe25049

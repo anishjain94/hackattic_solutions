@@ -5,11 +5,10 @@ import (
 	"os"
 	"os/exec"
 
-	"hackattic_solutions/pkg/common"
+	"hackattic_solutions/modules/common"
 )
 
 // PGPASSWORD=password psql -h localhost -U pice_backend
-
 
 // pg_restore -h localhost -p 5432 -U pice_backend -d pice_backend pg_dump
 func BackupRestore() {
@@ -21,13 +20,13 @@ func BackupRestore() {
 	file, err := os.Create("pg_dump")
 	common.HandleError(err)
 	if _, err = file.Write(bytesToStore); err != nil {
-		print(err.Error())
+		println(err.Error())
 	}
 
-	print(string(bytesToStore))
+	println(string(bytesToStore))
 
 	if err = file.Sync(); err != nil {
-		print(err.Error())
+		println(err.Error())
 	}
 
 	// TODO: check why pg_dump is not working.

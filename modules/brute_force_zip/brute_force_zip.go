@@ -2,7 +2,7 @@ package bruteforcezip
 
 import (
 	"bytes"
-	"hackattic_solutions/pkg/common"
+	"hackattic_solutions/modules/common"
 	"io"
 	"log"
 	"os"
@@ -24,13 +24,13 @@ func BruteForceZip() {
 
 	// defer respZip.Body.Close()
 
-	// zipFile, err := os.Create("../pkg/brute_force_zip/hackattic.zip")
+	// zipFile, err := os.Create("../modules/brute_force_zip/hackattic.zip")
 	// common.HandleError(err)
 
 	// _, err = io.Copy(zipFile, respZip.Body)
 	// common.HandleError(err)
 
-	// read, err := zip.OpenReader("../pkg/brute_force_zip/hackattic.zip")
+	// read, err := zip.OpenReader("../modules/brute_force_zip/hackattic.zip")
 	// common.HandleError(err)
 
 	// Used john the reaper for breaking password
@@ -44,7 +44,7 @@ func BruteForceZip() {
 	passwordBytes, err := exec.Command("sh", "-c", "john secure.hashes").CombinedOutput()
 	common.HandleError(err)
 
-	print(string(passwordBytes))
+	println(string(passwordBytes))
 
 	// for _, file := range read.File {
 	// 	if file.Name == "secret.txt" {
@@ -52,7 +52,7 @@ func BruteForceZip() {
 	// 		file.SetPassword(password)
 	// 		_, err := file.Open()
 	// 		if err != nil {
-	// 			print(err.Error())
+	// 			println(err.Error())
 	// 			continue
 	// 		} else {
 	// 			break
