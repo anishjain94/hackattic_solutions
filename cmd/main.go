@@ -4,10 +4,10 @@ import (
 	// "hackattic_solutions/modules/backup_restore"
 	// unpackbytes "hackattic_solutions/modules/unpack_bytes"
 	// bruteforcezip "hackattic_solutions/modules/brute_force_zip"
-
 	// jottingjwts "hackattic_solutions/modules/jotting_jwts"
+	// websocketchitchat "hackattic_solutions/modules/websocket_chit_chat"
 
-	websocketchitchat "hackattic_solutions/modules/websocket_chit_chat"
+	globalpresence "hackattic_solutions/modules/global_presence"
 )
 
 func main() {
@@ -20,5 +20,8 @@ func main() {
 
 	// jottingjwts.VerifyJwts()
 
-	websocketchitchat.Chat()
+	// websocketchitchat.Chat()
+
+	globalpresence.GlobalPresence()
+
 }
