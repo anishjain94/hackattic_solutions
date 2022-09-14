@@ -9,7 +9,7 @@ import (
 
 func HandleError(err error) {
 	if err != nil {
-		println(err.Error())
+		panic(err.Error())
 	}
 }
 
