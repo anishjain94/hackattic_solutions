@@ -1,0 +1,12 @@
+1 - Ngrok 5000
+2 - host your own registry
+3 - get token and creds from hackattic
+4 - docker login using creds
+5 - post request to hacktick with ngrok url
+6 - now hackattik will upload and send a response 200. 
+7 - ➜  ~ curl localhost:5000/v2/hack/tags/list
+    - resp {"name":"hack","tags":["6.34.524","4.29.952"]}
+
+8 - docker run -e IGNITION_KEY=E0Y25RP4V912MN4Z28DHDSYC4J4H localhost:5000/hack:6.34.524 - tag1 and tag2
+9 - will get a secret
+10 - post request to hackattic for this secret. 
